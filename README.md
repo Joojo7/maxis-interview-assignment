@@ -24,9 +24,9 @@ Assignment to be fulfilled as per interviewer's request
 4. GET "/transactions" - Viewing transactions of users (response is cached). Example: /transactions?email=ronaldo@gmail.com&count=3
 
 ## ACID application
-Atomicity: Finding offers, creating transactions and deleting offers are all performed at once. Found in models/offers.js
-Consistency: The total number of offers and transactions stay the same after the user-offer request. Found in models/offers.js
-Isolation: Finding offers, creating transactions and deleting offers are all invisible to each other. Found in models/offers.js
+- Atomicity: Finding offers, creating transactions and deleting offers are all performed at once. Found in models/offers.js
+- Consistency: The total number of offers and transactions stay the same after the user-offer request. Found in models/offers.js
+- Isolation: Finding offers, creating transactions and deleting offers are all invisible to each other. Found in models/offers.js
 
 ## Caching
 Strategy:
