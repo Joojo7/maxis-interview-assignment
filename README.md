@@ -30,5 +30,5 @@ Assignment to be fulfilled as per interviewer's request
 
 ## Caching
 Strategy:
-Caching is done on retrieval of offers for a user from the transaction table. Found in models/transactions.js
-Cache for a particular query is invalidated when offers are generated for that query. Found in helpers/offers.js
+- Caching is done on retrieval of offers for a user from the transaction table. Found in models/transactions.js
+- Cache for a particular query is invalidated when offers are generated for that query. Found in helpers/offers.js
