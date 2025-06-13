@@ -10,51 +10,51 @@ class RedisClient {
       socket: {
         port: redisPort,
         host: redisHost,
-        reconnectStrategy: (retries) => {
-          log.debug("RedisClient.retry_strategy", { retries });
-
-          if (retries > this._maxRetries) {
-            this._client.disconnect();
-            throw Error("Retry attempts exhausted");
-          }
-          return retries;
+        reconnectStrategy: () => {
+          // Fail silently and stop retrying
+          return 0; // Return 0 to stop the client from retrying
         },
       },
       database: redisDB,
     });
+
+    // Connect to Redis client
     this._client.connect();
 
+    // Handle client error events but fail silently
     this._client.on("error", (err) => {
-      log.error({ err: err }, "ERR:REDIS:");
+      // Optionally log an error message if needed
+      // console.error("RedisClient Error:", err);
     });
   }
 
+  // Get a value from Redis
   async get(key) {
     try {
       return await this._client.get(key);
     } catch (error) {
-      console.log("RedisClient.get:", error);
+      // Fail silently without logging
     }
   }
 
-  async set(key, value, options) {
+  // Set a value in Redis
+  async set(key, value, options = {}) {
     try {
-      return await this._client.set(key, value, {
-        ...options,
-      });
+      return await this._client.set(key, value, options);
     } catch (error) {
-      console.log("RedisClient.set:", error);
+      // Fail silently without logging
     }
   }
 
+  // Delete a key from Redis
   async del(key) {
     try {
       await this._client.del(key);
-      return;
     } catch (error) {
-      console.log("RedisClient.del:", error);
+      // Fail silently without logging
     }
   }
 }
 
+// Export an instance of the RedisClient class
 module.exports = new RedisClient(redisPort, redisHost, redisDB);
