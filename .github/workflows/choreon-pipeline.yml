@@ -58,8 +58,8 @@ jobs:
           else
             echo ".choreon file already exists."
           fi
-          echo "Deploying tag ${{ github.ref_name }}"
-          yq e ".image.versionSet.live.version = \"${{ github.ref_name }}\"" -i .choreon
+          echo "Deploying ${{ github.ref_name }}"
+          yq -i e ".image.versionSet.live.version = \"${{ github.ref_name }}\"" .choreon
           echo "Updated .choreon file:"
           cat .choreon
 
