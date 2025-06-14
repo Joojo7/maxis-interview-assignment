@@ -50,7 +50,7 @@ jobs:
           echo "Installing choreon-cli..."
           curl -fsSL https://public.choreon.dev/artifacts/choreon-cli/install.sh | bash
 
-      - name: Ensure .choreon file exists
+      - name: Ensure .choreon file exists and update it
         run: |
           if [ ! -f .choreon ]; then
             echo "Creating empty .choreon file..."
@@ -58,8 +58,6 @@ jobs:
           else
             echo ".choreon file already exists."
           fi
-      - name: Update .choreon file
-        run: |
           echo "Deploying tag ${{ github.ref_name }}"
           yq e ".image.versionSet.live.version = \"${{ github.ref_name }}\"" -i .choreon
           echo "Updated .choreon file:"
