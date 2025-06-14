@@ -9,22 +9,15 @@ on:
       - "master"
 
 jobs:
+
   build:
-    name: Build (with optional test)
+    name: Build
     runs-on: ubuntu-latest
     outputs:
       ref_name: $
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
-
-      - name: Install curl and choreon-cli
-        run: |
-          echo "Installing curl and choreon-cli..."
-          sudo apt-get update -y && sudo apt-get install -y curl
-          curl -fsSL https://public.choreon.dev/artifacts/choreon-cli/install.sh | bash
 
       - name: Extract ref name
         id: extract_ref
