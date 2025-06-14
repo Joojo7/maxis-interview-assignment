@@ -13,11 +13,12 @@ jobs:
     name: Build (with optional test)
     runs-on: ubuntu-latest
     outputs:
-      ref_name: ${{ steps.extract_ref.outputs.ref_name }}
+      ref_name: $
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
 
       - name: Install curl and choreon-cli
         run: |
@@ -53,20 +54,24 @@ jobs:
         run: |
           if [ ! -f .choreon ]; then
             echo "Creating default .choreon file..."
-            echo 'image:
-              versionSet:
-                live:
-                  version: ""' > .choreon
-                      else
-                        echo ".choreon file already exists."
-                      fi
+            cat <<EOF > .choreon
+image:
+  versionSet:
+    live:
+      version: ""
+EOF
+          else
+            echo ".choreon file already exists."
+          fi
 
       - name: Update .choreon file
         run: |
-          echo "Deploying tag ${{ needs.build.outputs.ref_name }}"
-          yq e ".image.versionSet.live.version = \"${{ needs.build.outputs.ref_name }}\"" -i .choreon
+          echo "Deploying from branch $GITHUB_REF_NAME"
+          yq -i '.image.versionSet.live.version = strenv(GITHUB_REF_NAME)' .choreon
           echo "Updated .choreon file:"
           cat .choreon
+        env:
+          GITHUB_REF_NAME: $
 
       - name: Deploy Service
         run: choreon service deploy
