@@ -1,0 +1,60 @@
+name: "Choreon - Pipeline"
+
+on:
+  push:
+    branches:
+      - "master"
+  pull_request:
+    branches:
+      - "master"
+
+jobs:
+  build:
+    name: Build (with optional test)
+    runs-on: ubuntu-latest
+    outputs:
+      ref_name: $
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+
+      - name: Install curl and choreon-cli
+        run: |
+          echo "Installing curl and choreon-cli..."
+          sudo apt-get update -y && sudo apt-get install -y curl
+          curl -fsSL https://public.choreon.dev/artifacts/choreon-cli/install.sh | bash
+
+      - name: Extract ref name
+        id: extract_ref
+        run: echo "ref_name=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
+
+  deploy:
+    name: Deploy Service
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install curl and yq
+        run: |
+          echo "Installing curl and yq..."
+          sudo apt-get update -y && sudo apt-get install -y curl yq
+
+      - name: Install choreon-cli
+        run: |
+          echo "Installing choreon-cli..."
+          curl -fsSL https://public.choreon.dev/artifacts/choreon-cli/install.sh | bash
+
+      - name: Update .choreon file
+        run: |
+          echo "Deploying from branch $"
+          yq e ".image.versionSet.live.version = \"$\"" -i .choreon
+          echo "Updated .choreon file:"
+          cat .choreon
+
+      - name: Deploy Service
+        run: choreon service deploy
