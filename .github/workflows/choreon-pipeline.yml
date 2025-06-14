@@ -52,7 +52,7 @@ jobs:
       - name: Update .choreon file
         run: |
           echo "Deploying from branch $GITHUB_REF_NAME"
-          yq e ".image.versionSet.live.version = strenv(GITHUB_REF_NAME)" -i .choreon
+          yq -i e '.image.versionSet.live.version = strenv(GITHUB_REF_NAME)' .choreon
           echo "Updated .choreon file:"
           cat .choreon
         env:
