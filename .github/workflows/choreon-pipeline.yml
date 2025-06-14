@@ -53,8 +53,8 @@ jobs:
       - name: Ensure .choreon file exists
         run: |
           if [ ! -f .choreon ]; then
-            echo "Creating default .choreon file..."
-            cat <<EOF > .choreon
+            echo "Creating empty .choreon file..."
+            touch .choreon
           else
             echo ".choreon file already exists."
           fi
