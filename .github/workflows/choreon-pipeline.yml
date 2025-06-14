@@ -59,7 +59,7 @@ jobs:
             echo ".choreon file already exists."
           fi
           echo "Deploying ${{ github.ref_name }}"
-          yq -i e ".image.versionSet.live.version = \"${{ github.ref_name }}\"" .choreon
+          yq -i '.a.b[0].c = "cool"' file.yaml
           echo "Updated .choreon file:"
           cat .choreon
 
