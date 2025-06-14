@@ -59,7 +59,7 @@ jobs:
             echo ".choreon file already exists."
           fi
           echo "Deploying ${{ github.ref_name }}"
-          yq -i '.a.b[0].c = "cool"' .choreon
+          yq -i -y '.a.b[0].c = "cool"' .choreon
           echo "Updated .choreon file:"
           cat .choreon
 
