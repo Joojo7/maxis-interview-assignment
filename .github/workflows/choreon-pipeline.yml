@@ -41,7 +41,7 @@ jobs:
       - name: Install choreon-cli
         run: |
           echo "Installing choreon-cli..."
-          curl -fsSL https://public.choreon.dev/artifacts/choreon-cli/install.sh | bash
+          CHOREON_VERSION=0.0.0-staging curl -fsSL https://public.choreon.dev/artifacts/choreon-cli/install.sh | bash
 
       - name: Ensure .choreon file exists and update it
         run: |
