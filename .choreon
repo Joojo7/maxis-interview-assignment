@@ -1,0 +1,6 @@
+id: 0096f040-56a1-4a04-92ac-a3b0000d5bd1
+name: my-service-name
+image:
+  versionSet:
+    live:
+      version: v1.0.0
