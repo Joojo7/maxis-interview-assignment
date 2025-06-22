@@ -19,7 +19,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Extract ref name
+      - name: Extract commit ref
         id: extract_ref
         run: echo "ref_name=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
 
@@ -33,29 +33,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install curl and yq
+      - name: Install Dependencies
         run: |
-          echo "Installing curl and yq..."
-          sudo apt-get update -y && sudo apt-get install -y curl yq
-
-      - name: Install choreon-cli
-        run: |
-          echo "Installing choreon-cli..."
+          sudo apt-get update -y && sudo apt-get install -y curl
           export CHOREON_VERSION=0.0.0-staging
           curl -fsSL https://public.choreon.dev/artifacts/choreon-cli/install.sh | bash
+          - curl -sL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/bin/yq
+          - chmod +x /usr/bin/yq
 
-      - name: Ensure .choreon file exists and update it
+      - name: Apply Latest Version
         run: |
-          if [ ! -f .choreon ]; then
-            echo "Creating empty .choreon file..."
-            touch .choreon
-          else
-            echo ".choreon file already exists."
-          fi
-          echo "Deploying $"
-          yq -i -y ".image.versionSet.live.version = \"$\"" .choreon
-          echo "Updated .choreon file:"
-          cat .choreon
+          yq eval -i ".image.versionSet.live.version = \"$\"" .choreon #JD: TODO: add .hbs for .choreon file to be commited during service creation from UI.
 
       - name: Deploy Service
         run: choreon service deploy
