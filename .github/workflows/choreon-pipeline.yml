@@ -46,8 +46,6 @@ jobs:
 
       - name: Apply Latest Version
         run: |
-          echo "Repo: ${{ github.repository }}"
-          echo "Env: ${{ env }}"
           echo "CHOREON_TOKEN: $CHOREON_TOKEN"
           echo "Applying version: $GITHUB_REF"
           yq eval -i ".image.versionSet.live.version = ${{ needs.build.outputs.ref_name}} .choreon
