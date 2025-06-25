@@ -49,9 +49,8 @@ jobs:
           echo "Repo: ${{ github.repository }}"
           echo "Env: ${{ env }}"
           echo "CHOREON_TOKEN: $CHOREON_TOKEN"
-          echo "ref_name: ${{ needs.build.outputs.ref_name}}"
           echo "Applying version: $GITHUB_REF"
-          yq eval -i ".image.versionSet.live.version = ${{ needs.build.outputs.ref_name}} .choreon
+          yq eval -i ".image.versionSet.live.version = $GITHUB_REF" .choreon
 
       - name: Deploy Service
         run: choreon service deploy
