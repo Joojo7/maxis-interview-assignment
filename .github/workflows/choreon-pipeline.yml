@@ -44,7 +44,7 @@ jobs:
 
       - name: Apply Latest Version
         run: |
-          yq eval -i ".image.versionSet.live.version = \"$ needs.build.outputs.ref_name \"" .choreon
+          yq eval -i ".image.versionSet.live.version = \"${{ needs.build.outputs.ref_name }}\"" .choreon
 
       - name: Deploy Service
         run: choreon service deploy
