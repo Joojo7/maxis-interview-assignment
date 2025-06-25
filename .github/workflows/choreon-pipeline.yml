@@ -31,7 +31,7 @@ jobs:
     if: github.event_name == 'push'
     env:
       NODE_ENV: production
-      CHOREON_TOKEN: ${{ vars.CHOREON_TOKEN }}
+      CHOREON_TOKEN: ${{ secrets.CHOREON_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -48,10 +48,10 @@ jobs:
         run: |
           echo "Repo: ${{ github.repository }}"
           echo "Env: ${{ env }}"
-          echo "CHOREON_TOKEN: ${{ env.CHOREON_TOKEN }}"
+          echo "CHOREON_TOKEN: $CHOREON_TOKEN"
           echo "ref_name: ${{ needs.build.outputs.ref_name}}"
           echo "Applying version: $GITHUB_REF"
-          yq eval -i ".image.versionSet.live.version = \"$\"" .choreon
+          yq eval -i ".image.versionSet.live.version = $GITHUB_REF .choreon
 
       - name: Deploy Service
         run: choreon service deploy
