@@ -43,7 +43,7 @@ jobs:
 
       - name: Apply Latest Version
         run: |
-          echo "Applying version: ${{ needs.build.outputs.ref_name }}"
+          echo "Applying version: $GITHUB_REF"
           yq eval -i ".image.versionSet.live.version = \"$\"" .choreon
 
       - name: Deploy Service
