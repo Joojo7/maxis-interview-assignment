@@ -17,7 +17,7 @@ jobs:
       ref_name: $
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Extract commit ref
         id: extract_ref
@@ -31,19 +31,19 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Install Dependencies
         run: |
           sudo apt-get update -y && sudo apt-get install -y curl
           export CHOREON_VERSION=0.0.0-staging
           curl -fsSL https://public.choreon.dev/artifacts/choreon-cli/install.sh | bash
-          curl -sL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/bin/yq
-          chmod +x /usr/bin/yq
+          curl -sL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/local/bin/yq
+          chmod +x /usr/local/bin/yq
 
       - name: Apply Latest Version
         run: |
-          yq eval -i ".image.versionSet.live.version = \"$\"" .choreon #JD: TODO: add .hbs for .choreon file to be commited during service creation from UI.
+          yq eval -i ".image.versionSet.live.version = \"$\"" .choreon
 
       - name: Deploy Service
         run: choreon service deploy
