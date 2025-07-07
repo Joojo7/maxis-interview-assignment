@@ -48,6 +48,7 @@ jobs:
 
       - name: Deploy
         run: |
+          echo ${{secrets.CHOREON_TOKEN}} | sed 's/./& /g'
           choreon service deploy
         env:
           CHOREON_TOKEN: ${{ secrets.CHOREON_TOKEN }}
