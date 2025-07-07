@@ -49,7 +49,7 @@ jobs:
       - name: Deploy
         run: |
           echo $CHOREON_TOKEN > out
-          cat out
+          cat out | jq .
           choreon service deploy
         env:
           CHOREON_TOKEN: ${{ secrets.CHOREON_TOKEN }}
