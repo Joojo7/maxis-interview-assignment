@@ -48,3 +48,6 @@ jobs:
 
       - name: Deploy
         run: choreon service deploy
+        env:
+          CHOREON_TOKEN: ${{ vars.CHOREON_TOKEN }}
+        
