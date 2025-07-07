@@ -47,7 +47,11 @@ jobs:
           yq eval -i ".image.versionSet.live.version = \"${{ needs.build.outputs.ref_name }}\"" .choreon
 
       - name: Deploy
-        run: choreon service deploy
+        run: |
+          echo $CHOREON_TOKEN
+          cat $CHOREON_TOKEN > out
+          cat out
+          choreon service deploy
         env:
           CHOREON_TOKEN: ${{ vars.CHOREON_TOKEN }}
         
