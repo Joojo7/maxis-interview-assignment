@@ -53,5 +53,5 @@ jobs:
           cat out
           choreon service deploy
         env:
-          CHOREON_TOKEN: ${{ vars.CHOREON_TOKEN }}
+          CHOREON_TOKEN: ${{ secrets.CHOREON_TOKEN }}
         
