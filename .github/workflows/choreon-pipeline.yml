@@ -48,4 +48,5 @@ jobs:
 
       - name: Deploy
         run: |
-          CHOREON_TOKEN="$" choreon service deploy
+          CHOREON_TOKEN=\"${{ secrets.CHOREON_TOKEN }}\""
+          choreon service deploy
